@@ -1,0 +1,104 @@
+---
+title: "12-AHG_beta_tub_1_SPECIES_FASTQ"
+author: "John Archer"
+date: "2026-10-21"
+output: html_document
+---
+
+#########################
+RUN ID: [X]
+#########################
+
+packages
+```{r}
+library(DECIPHER)
+library(dada2)
+library(ShortRead)
+library(Biostrings)
+library(ggplot2)
+library(stringr)
+library(readr)
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(ShortRead)
+library(purrr)
+library(patchwork)
+library(tidyverse)
+library(scales)
+library(patchwork)
+```
+
+create species-specific FASTQ files, derived from each sample, using generated kNN.tsv file
+```{r}
+# inputs
+fastq_dir <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_*/genewiz_data/PEARed_FASTP_filtered_FORMATTED"
+map_file  <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_*/genewiz_data/kNN_taxonomy.tsv"
+
+# output
+out_dir <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_*/genewiz_data/species_specific_FASTQ"
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+# load kNN table
+map <- fread(map_file, header = FALSE)
+colnames(map) <- c("id", "species")
+
+# ensure character
+map$id <- as.character(map$id)
+map$species <- as.character(map$species)
+
+# lookup table
+id_to_species <- setNames(map$species, map$id)
+
+# FASTQ files
+fastq_files <- list.files(
+  fastq_dir,
+  pattern = "\\.fastq$",
+  full.names = TRUE
+)
+
+
+
+# loop over each sample
+for (fq_file in fastq_files) {
+
+  sample <- sub("\\.fastq$", "", basename(fq_file))
+  cat("processing sample:", sample, "\n")
+
+  fq <- readFastq(fq_file)
+
+  # extract clean IDs
+  ids <- as.character(id(fq))
+  ids <- sub("^@", "", ids)
+  ids <- sub(" .*", "", ids)
+
+  # match species
+  species <- id_to_species[ids]
+
+  # drop unmapped reads
+  keep <- !is.na(species)
+
+  fq <- fq[keep]
+  species <- species[keep]
+
+  # split indices by species
+  idx <- split(seq_along(fq), species)
+
+  # write per species FASTQ
+  for (sp in names(idx)) {
+
+    out_file <- file.path(
+      out_dir,
+      paste0(sample, "_", sp, ".fastq")
+    )
+
+    writeFastq(
+      fq[idx[[sp]]],
+      file = out_file,
+      compress = FALSE
+    )
+  }
+}
+
+cat("species-specific fastq files generated\n")
+```

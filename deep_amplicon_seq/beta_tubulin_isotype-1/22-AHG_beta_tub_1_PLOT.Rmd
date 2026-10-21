@@ -1,0 +1,791 @@
+---
+title: "22-AHG_beta_tub_1_PLOT"
+author: "John Archer"
+date: "2026-10-21"
+output: html_document
+---
+
+#########################
+RUN ID: [X]
+#########################
+
+plot_1: relative abundance of resistant alleles vs susceptible alleles in all nematode species, per sample
+```{r}
+# input csv
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+
+# sample
+sample_id <- "102"
+
+# read data
+df <- read.csv(file, stringsAsFactors = FALSE)
+
+# select sample
+df_s <- df %>%
+  dplyr::filter(
+    grepl(paste0("^", sample_id, "\\."), Sample)
+  )
+
+# keep one row per Sample × Species × Beta_codon
+df_s <- df_s %>%
+  dplyr::group_by(Sample, Species, Beta_codon) %>%
+  dplyr::slice(1) %>%
+  dplyr::ungroup()
+
+# make sure numeric
+df_s <- df_s %>%
+  dplyr::mutate(
+    Total_depth = as.numeric(Total_depth),
+    Resistance_allele_frequency =
+      as.numeric(Resistance_allele_frequency),
+    Susceptible_allele_frequency =
+      as.numeric(Susceptible_allele_frequency)
+  )
+
+# calculate resistant and susceptible read counts
+totals <- df_s %>%
+  dplyr::summarise(
+    Resistant_reads =
+      sum(
+        Total_depth * Resistance_allele_frequency,
+        na.rm = TRUE
+      ),
+
+    Susceptible_reads =
+      sum(
+        Total_depth * Susceptible_allele_frequency,
+        na.rm = TRUE
+      )
+  ) %>%
+  dplyr::mutate(
+    total_reads = Resistant_reads + Susceptible_reads,
+
+    Resistant =
+      Resistant_reads / total_reads,
+
+    Susceptible =
+      Susceptible_reads / total_reads
+  ) %>%
+  dplyr::select(Resistant, Susceptible) %>%
+  tidyr::pivot_longer(
+    cols = everything(),
+    names_to = "status",
+    values_to = "proportion"
+  )
+
+# plot
+plot_1 <-
+  ggplot(
+    totals,
+    aes(
+      x = sample_id,
+      y = proportion,
+      fill = status
+    )
+  ) +
+
+  geom_col(width = 0.7) +
+
+  scale_y_continuous(
+    limits = c(0, 1),
+    expand = c(0, 0),
+    labels = scales::percent
+  ) +
+
+  theme_bw() +
+
+  labs(
+    title = paste("plot_1:", sample_id),
+    x = "Sample",
+    y = "Allele proportion",
+    fill = ""
+  )
+```
+
+plot_2: relative abundance of resistant alleles vs susceptible alleles in each species, per sample
+```{r}
+# input csv
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+
+# define sample ID
+sample_id <- "102"
+df <- read.csv(file, stringsAsFactors = FALSE)
+
+# filter to defined sample
+df_s <- df %>%
+  dplyr::filter(grepl(paste0("^", sample_id, "\\."), Sample))
+
+# keep one row per codon (each codon appears three times)
+df_s <- df_s %>%
+  dplyr::group_by(Sample, Species, Beta_codon) %>%
+  dplyr::slice(1) %>%
+  dplyr::ungroup()
+
+# ensure numeric values
+df_s$Total_depth <- as.numeric(df_s$Total_depth)
+df_s$Codon_allele_frequency <- as.numeric(df_s$Resistance_allele_frequency)
+df_s$Susceptible_allele_frequency <- as.numeric(df_s$Susceptible_allele_frequency)
+
+# calculate weighted allele frequencies per species
+plot_df <- df_s %>%
+  dplyr::group_by(Species) %>%
+  dplyr::summarise(
+    resistant =
+      sum(Codon_allele_frequency * Total_depth) /
+      sum(Total_depth),
+
+    susceptible =
+      sum(Susceptible_allele_frequency * Total_depth) /
+      sum(Total_depth),
+
+    total_reads = sum(Total_depth),
+
+    .groups = "drop"
+  )
+
+# summary table
+summary_table <- plot_df %>%
+  dplyr::mutate(
+    prop_species = total_reads / sum(total_reads)
+  )
+
+print(summary_table)
+
+# remove species contributing <1% of reads
+plot_df <- summary_table %>%
+  dplyr::filter(prop_species >= 0.01)
+
+# melt
+plot_long <- plot_df %>%
+  dplyr::select(
+    Species,
+    resistant,
+    susceptible
+  ) %>%
+  tidyr::pivot_longer(
+    cols = c(resistant, susceptible),
+    names_to = "status",
+    values_to = "proportion"
+  )
+
+# plot
+plot_2 <-
+ggplot(plot_long,
+       aes(x = Species,
+           y = proportion,
+           fill = status)) +
+
+  geom_col(width = 0.8) +
+
+  scale_y_continuous(
+    limits = c(0,1),
+    expand = c(0,0)
+  ) +
+
+  theme_bw() +
+
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  ) +
+
+  labs(
+    title = paste("plot_2:", sample_id),
+    x = "Nematode species",
+    y = "Allele frequency",
+    fill = ""
+  )
+```
+
+plot_3: relative abundance of resistant alleles vs susceptible alleles at each codon position in all species, per sample
+```{r}
+# input
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+
+# define sample ID
+sample_id <- "102"
+df <- read.csv(file, stringsAsFactors = FALSE)
+
+# filter to selected sample
+df_s <- df %>%
+  filter(grepl(paste0("^", sample_id, "\\."), Sample))
+
+# keep one row per sample × species × codon
+df_s <- df_s %>%
+  group_by(Sample, Species, Beta_codon) %>%
+  slice(1) %>%
+  ungroup()
+
+# ensure numeric
+df_s$Total_depth <- as.numeric(df_s$Total_depth)
+df_s$Codon_allele_frequency <- as.numeric(df_s$Resistance_allele_frequency)
+df_s$Susceptible_allele_frequency <- as.numeric(df_s$Susceptible_allele_frequency)
+
+# calculate species abundance
+species_totals <- df_s %>%
+  group_by(Species) %>%
+  summarise(
+    total_reads = sum(Total_depth),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    prop_species = total_reads / sum(total_reads)
+  )
+
+# remove species contributing <1% of reads
+keep_species <- species_totals %>%
+  filter(prop_species >= 0.01) %>%
+  pull(Species)
+
+df_s <- df_s %>%
+  filter(Species %in% keep_species)
+
+# calculate weighted allele frequencies for each codon
+plot_df <- df_s %>%
+  group_by(Beta_codon) %>%
+  summarise(
+    Resistant =
+      sum(Codon_allele_frequency * Total_depth) /
+      sum(Total_depth),
+
+    Susceptible =
+      sum(Susceptible_allele_frequency * Total_depth) /
+      sum(Total_depth),
+
+    .groups = "drop"
+  ) %>%
+  pivot_longer(
+    cols = c(Susceptible, Resistant),
+    names_to = "allele",
+    values_to = "proportion"
+  )
+
+# tidy codon labels
+plot_df$Beta_codon <- factor(
+  plot_df$Beta_codon,
+  levels = c("codon167", "codon198", "codon200"),
+  labels = c("167", "198", "200")
+)
+
+# plot
+# library(scales)
+plot_3 <-
+ggplot(plot_df,
+       aes(x = Beta_codon,
+           y = proportion,
+           fill = allele)) +
+
+  geom_col(width = 0.7) +
+
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    limits = c(0, 1),
+    expand = c(0, 0)
+  ) +
+
+  theme_bw(base_size = 13) +
+
+  labs(
+    title = paste("plot_3:", sample_id),
+    x = expression(beta*"-tubulin codon"),
+    y = "Allele frequency",
+    fill = "Allele"
+  ) +
+
+  theme(
+    panel.grid.minor = element_blank()
+  )
+```
+
+plot_4: relative abundance of resistant alleles vs susceptible alleles at each codon position, per nematode species, per sample
+```{r}
+# input csv
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+
+# define sample ID
+sample_id <- "102"
+df <- read.csv(file, stringsAsFactors = FALSE)
+
+# filter to selected sample
+df_s <- df %>%
+  filter(grepl(paste0("^", sample_id, "\\."), Sample))
+
+# keep one row per sample × species × codon
+df_s <- df_s %>%
+  group_by(Sample, Species, Beta_codon) %>%
+  slice(1) %>%
+  ungroup()
+
+# ensure numeric
+df_s$Total_depth <- as.numeric(df_s$Total_depth)
+df_s$Resistance_allele_frequency <- as.numeric(df_s$Resistance_allele_frequency)
+df_s$Susceptible_allele_frequency <- as.numeric(df_s$Susceptible_allele_frequency)
+
+# calculate species abundance
+species_totals <- df_s %>%
+  group_by(Species) %>%
+  summarise(
+    total_reads = sum(Total_depth),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    prop_species = total_reads / sum(total_reads)
+  )
+
+# filter species contributing <1% of reads
+keep_species <- species_totals %>%
+  filter(prop_species >= 0.01) %>%
+  pull(Species)
+
+df_s <- df_s %>%
+  filter(Species %in% keep_species)
+
+# resistant abundance
+df_resistant <- df_s %>%
+  transmute(
+    Species,
+    Beta_codon,
+    status = "Resistant",
+    abundance = Resistance_allele_frequency * Total_depth
+  )
+
+# susceptible abundance
+df_susceptible <- df_s %>%
+  transmute(
+    Species,
+    Beta_codon,
+    status = "Susceptible",
+    abundance = Susceptible_allele_frequency * Total_depth
+  )
+
+# combine
+plot_df <- bind_rows(df_susceptible, df_resistant)
+
+# calculate proportions within each species × codon
+plot_df <- plot_df %>%
+  group_by(Species, Beta_codon, status) %>%
+  summarise(
+    abundance = sum(abundance),
+    .groups = "drop"
+  ) %>%
+  group_by(Species, Beta_codon) %>%
+  mutate(
+    proportion = abundance / sum(abundance)
+  ) %>%
+  ungroup()
+
+# order species by abundance
+species_order <- species_totals %>%
+  filter(Species %in% keep_species) %>%
+  arrange(desc(total_reads)) %>%
+  pull(Species)
+
+plot_df$Species <- factor(plot_df$Species,
+                          levels = species_order)
+
+plot_df$Beta_codon <- factor(
+  plot_df$Beta_codon,
+  levels = c("codon167","codon198","codon200"),
+  labels = c("167","198","200")
+)
+
+# plot
+plot_4 <-
+ggplot(plot_df,
+       aes(x = Species,
+           y = proportion,
+           fill = status)) +
+
+  geom_col(width = 0.8) +
+
+  facet_wrap(~Beta_codon, nrow = 1) +
+
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    limits = c(0,1),
+    expand = c(0,0)
+  ) +
+
+  theme_bw(base_size = 13) +
+
+  labs(
+    title = paste("plot_4:", sample_id),
+    x = "Nematode species",
+    y = "Allele frequency",
+    fill = ""
+  ) +
+
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.minor = element_blank()
+  )
+```
+
+plot_5: relative abundance of each specific resistance mutation vs susceptible alleles, at each codon position, in all species, per sample
+NOTE: does not yet show 'undefined' mutations
+```{r}
+# input csv
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+
+# define sample ID
+sample_id <- "102"
+df <- read.csv(file, stringsAsFactors = FALSE)
+
+# filter to selected sample
+df_s <- df %>%
+  filter(grepl(paste0("^", sample_id, "\\."), Sample))
+
+# keep one row per sample × species × codon
+df_s <- df_s %>%
+  group_by(Sample, Species, Beta_codon) %>%
+  slice(1) %>%
+  ungroup()
+
+# ensure numeric
+df_s$Total_depth <- as.numeric(df_s$Total_depth)
+df_s$Codon_allele_frequency <- as.numeric(df_s$Resistance_allele_frequency)
+
+# calculate species abundance
+species_totals <- df_s %>%
+  group_by(Species) %>%
+  summarise(
+    total_reads = sum(Total_depth),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    prop_species = total_reads / sum(total_reads)
+  )
+
+# remove species contributing <1% of reads
+keep_species <- species_totals %>%
+  filter(prop_species >= 0.01) %>%
+  pull(Species)
+
+df_s <- df_s %>%
+  filter(Species %in% keep_species)
+
+# define mutation
+df_s <- df_s %>%
+  mutate(
+    Mutation = ifelse(
+      Protein_change_all == "NA",
+      "Susceptible",
+      Protein_change_all
+    )
+  )
+
+# resistant allele frequency belongs only to resistant mutations
+df_resistant <- df_s %>%
+  filter(Mutation != "Susceptible") %>%
+  transmute(
+    Beta_codon,
+    Mutation,
+    abundance = Codon_allele_frequency * Total_depth
+  )
+
+# susceptible abundance
+df_susceptible <- df_s %>%
+  transmute(
+    Beta_codon,
+    Mutation = "Susceptible",
+    abundance = Susceptible_allele_frequency * Total_depth
+  )
+
+# combine
+plot_df <- bind_rows(df_susceptible, df_resistant)
+
+# sum across species
+plot_df <- plot_df %>%
+  group_by(Beta_codon, Mutation) %>%
+  summarise(
+    abundance = sum(abundance),
+    .groups = "drop"
+  )
+
+# convert to proportions
+plot_df <- plot_df %>%
+  group_by(Beta_codon) %>%
+  mutate(
+    proportion = abundance / sum(abundance)
+  ) %>%
+  ungroup()
+
+# order codons
+plot_df$Beta_codon <- factor(
+  plot_df$Beta_codon,
+  levels = c("codon167","codon198","codon200"),
+  labels = c("167","198","200")
+)
+
+# order levels
+plot_df$Mutation <- factor(
+  plot_df$Mutation,
+  levels = c(
+    "Phe167Tyr",
+
+    "Glu198Ala",
+    "Glu198Val",
+    "Glu198Leu",
+    "Glu198Lys",
+    "Glu198Gly",
+
+    "Phe200Tyr",
+
+    "Susceptible"
+  )
+)
+
+# plot
+plot_5 <-
+ggplot(plot_df,
+       aes(x = Beta_codon,
+           y = proportion,
+           fill = Mutation)) +
+
+  geom_col(width = 0.7) +
+
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    limits = c(0,1),
+    expand = c(0,0)
+  ) +
+
+  theme_bw(base_size = 13) +
+
+  labs(
+    title = paste("plot_5:", sample_id),
+    x = expression(beta*"-tubulin codon"),
+    y = "Proportion of reads",
+    fill = "Mutation"
+  ) +
+
+  theme(
+    panel.grid.minor = element_blank()
+  )
+```
+
+plot_6: relative abundance of each specific resistance mutation (including 'undefined' mutations) vs susceptible alleles, at each codon position, per species, per sample
+```{r}
+# input csv
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+
+# define sample ID
+sample_id <- "102"
+df <- read.csv(file, stringsAsFactors = FALSE)
+
+# filter to selected sample
+df_s <- df %>%
+  filter(grepl(paste0("^", sample_id, "\\."), Sample))
+
+# keep one row per sample × species × codon
+df_s <- df_s %>%
+  group_by(Sample, Species, Beta_codon) %>%
+  slice(1) %>%
+  ungroup()
+
+# ensure numeric
+df_s$Total_depth <- as.numeric(df_s$Total_depth)
+df_s$Resistance_allele_frequency <- as.numeric(
+  df_s$Resistance_allele_frequency
+)
+df_s$Susceptible_allele_frequency <- as.numeric(
+  df_s$Susceptible_allele_frequency
+)
+
+# calculate species abundance
+species_totals <- df_s %>%
+  group_by(Species) %>%
+  summarise(
+    total_reads = sum(Total_depth),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    prop_species = total_reads / sum(total_reads)
+  )
+
+# filter species contributing <1% of reads
+keep_species <- species_totals %>%
+  filter(prop_species >= 0.01) %>%
+  pull(Species)
+
+df_s <- df_s %>%
+  filter(Species %in% keep_species)
+
+# define recognised resistance mutations
+recognised_mutations <- c(
+  "Phe167Tyr",
+
+  "Glu198Ala",
+  "Glu198Val",
+  "Glu198Leu",
+  "Glu198Lys",
+  "Glu198Gly",
+
+  "Phe200Tyr"
+)
+
+# define mutation category. NOTE: recognised mutations remain unchanged; NA values are treated as susceptible; any other mutation is classified as "undefined"
+df_s <- df_s %>%
+  mutate(
+    Mutation = case_when(
+
+      is.na(Protein_change_all) |
+        Protein_change_all == "NA" |
+        Protein_change_all == "" |
+        Protein_change_all == "Susceptible"
+      ~ "Susceptible",
+
+      Protein_change_all %in% recognised_mutations
+      ~ Protein_change_all,
+
+      TRUE
+      ~ "undefined"
+    )
+  )
+
+# resistant allele abundance
+df_resistant <- df_s %>%
+  filter(Mutation != "Susceptible") %>%
+  transmute(
+    Species,
+    Beta_codon,
+    Mutation,
+    abundance =
+      Resistance_allele_frequency * Total_depth
+  )
+
+# susceptible allele abundance
+df_susceptible <- df_s %>%
+  transmute(
+    Species,
+    Beta_codon,
+    Mutation = "Susceptible",
+    abundance =
+      Susceptible_allele_frequency * Total_depth
+  )
+
+# combine resistant and susceptible
+plot_df <- bind_rows(
+  df_susceptible,
+  df_resistant
+)
+
+# sum abundance within each species × codon × mutation
+plot_df <- plot_df %>%
+  group_by(
+    Species,
+    Beta_codon,
+    Mutation
+  ) %>%
+  summarise(
+    abundance = sum(abundance),
+    .groups = "drop"
+  )
+
+# calculate proportions within each species × codon
+plot_df <- plot_df %>%
+  group_by(
+    Species,
+    Beta_codon
+  ) %>%
+  mutate(
+    proportion =
+      abundance / sum(abundance)
+  ) %>%
+  ungroup()
+
+# order species by abundance
+species_order <- species_totals %>%
+  filter(Species %in% keep_species) %>%
+  arrange(desc(total_reads)) %>%
+  pull(Species)
+
+plot_df$Species <- factor(
+  plot_df$Species,
+  levels = species_order
+)
+
+# order codons
+plot_df$Beta_codon <- factor(
+  plot_df$Beta_codon,
+  levels = c(
+    "codon167",
+    "codon198",
+    "codon200"
+  ),
+  labels = c(
+    "167",
+    "198",
+    "200"
+  )
+)
+
+# order mutation levels
+plot_df$Mutation <- factor(
+  plot_df$Mutation,
+  levels = c(
+    "Phe167Tyr",
+
+    "Glu198Ala",
+    "Glu198Val",
+    "Glu198Leu",
+    "Glu198Lys",
+    "Glu198Gly",
+
+    "Phe200Tyr",
+
+    "undefined",
+
+    "Susceptible"
+  )
+)
+
+# plot
+plot_6 <-
+  ggplot(
+    plot_df,
+    aes(
+      x = Species,
+      y = proportion,
+      fill = Mutation
+    )
+  ) +
+
+  geom_col(
+    width = 0.8
+  ) +
+
+  facet_wrap(
+    ~Beta_codon,
+    nrow = 1
+  ) +
+
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    limits = c(0, 1),
+    expand = c(0, 0)
+  ) +
+
+  theme_bw(
+    base_size = 13
+  ) +
+
+  labs(
+    title = paste(
+      "plot_6:",
+      sample_id
+    ),
+    x = "Nematode species",
+    y = "Allele frequency",
+    fill = "Mutation"
+  ) +
+
+  theme(
+    axis.text.x =
+      element_text(
+        angle = 45,
+        hjust = 1
+      ),
+    panel.grid.minor =
+      element_blank()
+  )
+```

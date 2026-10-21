@@ -1,0 +1,219 @@
+---
+title: "01-AHG_beta_tub_1_READ_PROCESSING"
+author: "John Archer"
+date: "2026-10-21"
+output: html_document
+---
+
+#########################
+RUN ID: [X]
+#########################
+
+packages
+```{r}
+library(DECIPHER)
+library(dada2)
+library(ShortRead)
+library(Biostrings)
+library(ggplot2)
+library(stringr)
+library(readr)
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(ShortRead)
+library(purrr)
+library(patchwork)
+library(tidyverse)
+library(scales)
+library(patchwork)
+```
+
+set seed of reproducability
+```{r}
+set.seed(106)
+```
+
+filenames should be the same for all forward and reverse files, such as:
+
+*samplename*_R1_001.fastq.gz         for forward reads 
+*samplename*_R2_001.fastq.gz         for reverse reads
+
+define directory path of sequences to be processed
+```{r}
+path <- "" ### <- */fastq
+```
+
+create a vector of file names, one for the forward reads and one for the reverse. for illumina data, the sample name is usually everything before the first underscore
+```{r}
+# filter and store only fastq.gz files
+fwd_files <- sort(list.files(
+  path,
+  pattern = "_R1_001\\.fastq\\.gz$",
+  full.names = TRUE
+))
+
+rev_files <- sort(list.files(
+  path,
+  pattern = "_R2_001\\.fastq\\.gz$",
+  full.names = TRUE
+))
+```
+
+it is also useful to create a vector of just sample names
+```{r}
+samples = str_extract(basename(fwd_files), "^[^_]+")
+names(fwd_files) <- samples
+names(rev_files) <- samples
+```
+
+select primers based on target amplicon. include reverse compliement in case the amplicon sequence is shorter than read length. NOTE: for beta-tubulin isotype-1, four primer pairs are used
+```{r}
+# fw primers
+fwd_primer <- c(
+  "ACGCACTCTTTGGGAGGAGG",
+  "TACGCATTCTCTTGGAGGAGG",
+  "CGCATTCWCTTGGAGGAGG",
+  "CGCATTCYTTGGGAGGAGG"
+)
+# rv primers
+rev_primer <- c(
+  "TGTGAGTTTTAGTGTGCGGAAG",
+  "TGTGAGCTTCAATGTGCGGAA",
+  "GTGAGYTTCAAWGTGCGGAAG",
+  "GTGAGTTTYAAGGTGCGGAAG"
+)
+
+fwd_primer_rev <- as.character(reverseComplement(DNAStringSet(fwd_primer)))
+rev_primer_rev <- as.character(reverseComplement(DNAStringSet(rev_primer)))
+```
+
+count number of reads in which each primer is found
+```{r}
+primer_hits <- function(primer, reads) {
+    nhits <- vcountPattern(primer, sread(reads), fixed = FALSE)
+    sum(nhits > 0)
+}
+
+fwd_reads <- readFastq(fwd_files[[1]])
+rev_reads <- readFastq(rev_files[[1]])
+
+# fw primer in fwd reads
+fw_count <- sapply(fwd_primer, primer_hits, reads = fwd_reads)
+# fe primer in rev reads
+fw_rc_count <- sapply(fwd_primer_rev, primer_hits, reads = rev_reads)
+# rv primer in rev reads
+rv_count <- sapply(rev_primer, primer_hits, reads = rev_reads)
+# rv primer in fwd reads
+rv_rc_count <- sapply(rev_primer_rev, primer_hits, reads = fwd_reads)
+
+# generate table
+primer_table <- data.frame(
+  primer_type = rep(c("FW", "FW_rc", "RV", "RV_rc"), each = length(fwd_primer)),
+  primer = c(fwd_primer, fwd_primer_rev, rev_primer, rev_primer_rev),
+  count = c(fw_count, fw_rc_count, rv_count, rv_rc_count)
+)
+```
+                       primer_type                 primer count
+ACGCACTCTTTGGGAGGAGG            FW   ACGCACTCTTTGGGAGGAGG 38745
+TACGCATTCTCTTGGAGGAGG           FW  TACGCATTCTCTTGGAGGAGG 25301
+CGCATTCWCTTGGAGGAGG             FW    CGCATTCWCTTGGAGGAGG 46036
+CGCATTCYTTGGGAGGAGG             FW    CGCATTCYTTGGGAGGAGG 27173
+CCTCCTCCCAAAGAGTGCGT         FW_rc   CCTCCTCCCAAAGAGTGCGT  8342
+CCTCCTCCAAGAGAATGCGTA        FW_rc  CCTCCTCCAAGAGAATGCGTA  5366
+CCTCCTCCAAGWGAATGCG          FW_rc    CCTCCTCCAAGWGAATGCG  9550
+CCTCCTCCCAARGAATGCG          FW_rc    CCTCCTCCCAARGAATGCG  5164
+TGTGAGTTTTAGTGTGCGGAAG          RV TGTGAGTTTTAGTGTGCGGAAG 23405
+TGTGAGCTTCAATGTGCGGAA           RV  TGTGAGCTTCAATGTGCGGAA 22204
+GTGAGYTTCAAWGTGCGGAAG           RV  GTGAGYTTCAAWGTGCGGAAG 42453
+GTGAGTTTYAAGGTGCGGAAG           RV  GTGAGTTTYAAGGTGCGGAAG 25001
+CTTCCGCACACTAAAACTCACA       RV_rc CTTCCGCACACTAAAACTCACA   524
+TTCCGCACATTGAAGCTCACA        RV_rc  TTCCGCACATTGAAGCTCACA   608
+CTTCCGCACWTTGAARCTCAC        RV_rc  CTTCCGCACWTTGAARCTCAC  1101
+CTTCCGCACCTTRAAACTCAC        RV_rc  CTTCCGCACCTTRAAACTCAC   562
+
+
+
+install cutadapt using conda and run in RStudio using the 'system2' command. the first parameter to system2 is the program to run and the second is a character vector of arguments and their values
+```{r}
+cutadapt <- path.expand("/opt/miniconda3/envs/cutadapt_env/bin/cutadapt")
+# check installed correctly
+system2(cutadapt, args = "--version")
+# 5.2
+```
+
+create output filenames for the cut files, and define the parameters we are going to give the cutadapt command. the critical parameters are the primers, and they need to be in the right orientation, i.e. the fw primer should have been matching the forward-reads in its forward orientation, and the RV primer should have been matching the reverse-reads in its forward orientation. 
+
+briefly:
+-g: sequence to trim off the 5’ end of the forward read (the forward primer)
+-a: sequence to trim off the 3’ end of the forward read (the reverse complemented reverse primer)
+-G: sequence to trim off the 5’ end of the reverse read (the reverse primer)
+-A: sequence to trim off the 3’ end of the reverse read (the reverse complemented forward primer)
+
+in addition, add:
+-m 50: to get rid of very short or low-quality reads
+--max-n 1: to get rid of reads that have any N’s in them (ambiguous base calls)
+-n 2: so that cutadapt will remove multiple primer hits if there happens to be read-through
+--discard-untrimmed: is also added so only reads that contain a primer will be kept ensuring we keep only valid amplicons
+-q 15: will trim off low quality bases from the 3’ end
+
+this small amount of trimming can remove the need for truncating the reads later on but this is something that may vary from run to run
+
+create an output directory to store the cut files
+```{r}
+cut_dir <- file.path(path, "cutadapt_beta_tubulin_isotype-1")
+if (!dir.exists(cut_dir)) dir.create(cut_dir)
+
+fwd_cut <- file.path(cut_dir, basename(fwd_files))
+rev_cut <- file.path(cut_dir, basename(rev_files))
+
+names(fwd_cut) <- samples
+names(rev_cut) <- samples
+```
+
+it's good practice to keep some log files so create some file names that we can use for those 
+```{r}
+cut_logs <- path.expand(file.path(cut_dir, paste0(samples, ".log")))
+
+cutadapt_args <- c(
+  "-a", rev_primer_rev,
+  "-A", fwd_primer_rev,
+  "-n", 2,
+  "--discard-untrimmed"
+)
+
+fwd_args <- unlist(lapply(fwd_primer, function(p) c("-g", p)))
+rev_args <- unlist(lapply(rev_primer, function(p) c("-G", p)))
+cutadapt_extra <- c(
+  "-n", 
+  "2",
+  "--discard-untrimmed",
+  "-m", 
+  "50",
+  "--max-n", 
+  "1",
+  "-q", 
+  "15"
+)
+```
+
+loop over the list of files, running cutadapt on each one
+```{r}
+for (i in seq_along(fwd_files)) {
+
+  args <- c(
+    fwd_args,
+    rev_args,
+    cutadapt_extra,
+    "-o", fwd_cut[i],
+    "-p", rev_cut[i],
+    fwd_files[i],
+    rev_files[i]
+  )
+
+  system2(cutadapt, args = args, stdout = cut_logs[i])
+}
+
+# check
+head(list.files(cut_dir))
+```
