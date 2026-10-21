@@ -9,6 +9,26 @@ output: html_document
 RUN ID: [X]
 #########################
 
+packages
+```{r}
+library(DECIPHER)
+library(dada2)
+library(ShortRead)
+library(Biostrings)
+library(ggplot2)
+library(stringr)
+library(readr)
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(ShortRead)
+library(purrr)
+library(patchwork)
+library(tidyverse)
+library(scales)
+library(patchwork)
+```
+
 plot_1: relative abundance of resistant alleles vs susceptible alleles in all nematode species, per sample
 ```{r}
 # input csv
