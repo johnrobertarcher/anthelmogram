@@ -1,5 +1,5 @@
 ---
-title: "AHG_illumina_01"
+title: "AHG_ITS2"
 author: "John Archer"
 date: "2026-05-26"
 output: html_document
