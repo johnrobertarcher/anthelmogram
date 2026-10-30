@@ -1,7 +1,6 @@
 #!/bin/bash
 ### generate stability file from cutadapt’ed reads to be used by MOTHUR
 set -euo pipefail
-shopt -s nullglob
 
 # input cutadapt'ed paired-end reads
 RAW_DIR="" ### <- cutadapt output filepath: */cutadapt_beta_tubulin_isotype-1

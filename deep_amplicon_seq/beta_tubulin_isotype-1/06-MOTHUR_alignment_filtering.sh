@@ -1,7 +1,6 @@
 #!/bin/bash
 ### filter [*/AHG_illumina_*_stability_filetrim.contigs.good.align_report] to remove any sequences that do not align to at least 10% of any reference sequence with at least 60% similarity, and generate a new FASTA file containing only retained sequences
 set -euo pipefail
-shopt -s nullglob
 
 # input MOTHUR_alignment.sh output: */AHG_illumina_*_stability_filetrim.contigs.good.align_report 
 REPORT="" ### <- */AHG_illumina_*_stability_filetrim.contigs.good.align_report 

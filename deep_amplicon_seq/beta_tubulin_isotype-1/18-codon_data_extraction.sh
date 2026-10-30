@@ -1,7 +1,6 @@
 #!/bin/bash
 ### extract vardict SnpEff data from just codons of interest (167: 28; 198: 59; 200: 61) and extract read count data from vardict VCFs to plot
 set -euo pipefail
-shopt -s nullglob
 
 # input
 SNPEFF_DIR="" ### <- */SnpEff_output

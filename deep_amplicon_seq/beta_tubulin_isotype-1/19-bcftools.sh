@@ -4,7 +4,6 @@
 # NOTE: default is to limit to 250 reads --- that default is removed here, allowing all reads to be collated
 # NOTE: then use bcftools call to convert .txt files to vcf
 set -euo pipefail
-shopt -s nullglob
 
 # input BAM directory
 BAM_DIR="" ### <- */PICKARD_output

@@ -1,7 +1,6 @@
 #!/bin/bash
 ### use PICARD TOOLS to add header and sample information back to BAM files (lost during BAM processing) and re-index
 set -euo pipefail
-shopt -s nullglob
 
 # input BWA alignments
 BAM_DIR="" ### <- */BWA_alignments

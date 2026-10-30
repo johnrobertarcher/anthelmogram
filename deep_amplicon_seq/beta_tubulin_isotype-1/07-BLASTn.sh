@@ -2,7 +2,6 @@
 ### use generated [*/AHG_illumina_*_KEPT_SEQUENCES.fasta] to perform BLASTn. 
 # NOTE: returns top three hits only (kNN = 3); takes ~ 2 hours (8 threads)
 set -euo pipefail
-shopt -s nullglob
 
 # input query fasta: */AHG_illumina_*_KEPT_SEQUENCES.fasta, reference database, and the BLASTn database generated here
 QUERY_FASTA="" ### <- */AHG_illumina_*_KEPT_SEQUENCES.fasta

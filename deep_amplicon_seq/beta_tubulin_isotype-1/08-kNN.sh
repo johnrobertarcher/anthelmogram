@@ -1,7 +1,6 @@
 #!/bin/bash
 ### uses generated [*/BLASTn_output.tsv] to perform kNN (kNN = 3)
 set -euo pipefail
-shopt -s nullglob
 
 # input */BLASTn_output.tsv
 BLAST_OUT="" ### <- */BLASTn_output.tsv

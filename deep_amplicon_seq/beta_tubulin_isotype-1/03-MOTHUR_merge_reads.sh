@@ -1,7 +1,6 @@
 #!/bin/bash
 ### merge cutadapt'ed paired-end reads using MOTHUR make.contigs
 set -euo pipefail
-shopt -s nullglob
 
 # input illumina run-specific stability file
 FILELIST="" ### <- generate_stability_file.sh output path: */AHG_illumina_*_stability_file

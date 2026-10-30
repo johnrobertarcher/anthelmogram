@@ -1,7 +1,6 @@
 #!/bin/bash
 ### annotate beta-tubulin isotype-1 codon mutations using SnpEff
 set -euo pipefail
-shopt -s nullglob
 
 # input
 SNPEFF_JAR="/Users/john.archer/ls/share/snpeff-5.4.0c-0/snpEff.jar"

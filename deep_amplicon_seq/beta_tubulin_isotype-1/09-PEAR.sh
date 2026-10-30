@@ -1,7 +1,6 @@
 #!/bin/bash
 ### join cutadapt’ed paired-end reads to form contigs using PEAR (minimum overlap: 10 bp)
 set -euo pipefail
-shopt -s nullglob
 
 # input cutadapt'ed paired-end reads
 INPUT_DIR="" ### <- cutadapt output filepath: */cutadapt_beta_tubulin_isotype-1

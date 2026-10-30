@@ -2,7 +2,6 @@
 ### align retained sequences to reference sequence database [beta_tub_iso-1_sequence_database_JA_2026_FULL_GENUS_SPECIES_IN_HEADERS.fasta] using MOTHUR align.seqs (default Needleman-wunsch algorithm)
 # NOTE: output fasta is an alignment
 set -euo pipefail
-shopt -s nullglob
 
 # input MOTHUR_initial_filtering.sh output: */stability_filetrim.contigs.good.fasta
 INPUT_DIR="" ### <- MOTHUR_initial_filtering.sh output path

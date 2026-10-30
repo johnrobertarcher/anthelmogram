@@ -1,7 +1,6 @@
 #!/bin/bash
 ### format PEAR-ed and filtered FASTQ headers to match headers in kNN file (i.e., replace colons with underscores)
 set -euo pipefail
-shopt -s nullglob
 
 # input fastp filtered fastq files
 INPUT_DIR="" ### <- */PEARed_FASTP_filtered

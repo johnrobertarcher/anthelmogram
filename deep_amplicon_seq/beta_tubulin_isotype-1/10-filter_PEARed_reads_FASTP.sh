@@ -1,7 +1,6 @@
 #!/bin/bash
 ### filter PEAR-ed fastq files using FASTP: filters out any sample < 200 bp and > 450 bp, and any sequence with > ~1% ambiguous bases
 set -euo pipefail
-shopt -s nullglob
 
 # input directory: PEAR output
 INPUT_DIR="" ### <- */PEAR_output

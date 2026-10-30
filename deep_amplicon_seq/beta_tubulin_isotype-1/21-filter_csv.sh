@@ -11,7 +11,6 @@
 # 4. add Resistance_allele_frequency (highest mutation AF across the three bases of each codon)
 # 5. add Susceptible_allele_frequency (= 1 - Codon_allele_frequency)
 set -euo pipefail
-shopt -s nullglob
 
 # input csv generated using merge_vardict-SnpEff_and_mpileup.sh
 IN="" ### <- */beta_tubulin_codons_merged.csv

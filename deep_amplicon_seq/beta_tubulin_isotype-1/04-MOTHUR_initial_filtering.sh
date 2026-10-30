@@ -1,7 +1,6 @@
 #!/bin/bash
 ### filter and remove MOTHUR-merged reads if < 200 bp and > 450 bp in length, and if there are ambiguous bases in the contig overlapping region
 set -euo pipefail
-shopt -s nullglob
 
 # input MOTHUR_merge_reads.sh output: */stability_filetrim.contigs.fasta and */stability_filecontigs.count_table
 INPUT_DIR="" ### <- MOTHUR_merge_reads.sh output path

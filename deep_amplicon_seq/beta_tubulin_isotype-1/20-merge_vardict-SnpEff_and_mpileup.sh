@@ -5,7 +5,6 @@
 # 2. beta-tubulin codon 198 = SnpEff protein position 59
 # 3. beta-tubulin codon 200 = SnpEff protein position 61
 set -euo pipefail
-shopt -s nullglob
 
 # input bcftools output
 MPILEUP_DIR="" ### <- */bcftools_output
