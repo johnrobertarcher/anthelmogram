@@ -6,7 +6,7 @@ set -euo pipefail
 INPUT_DIR="" ### <- cutadapt output filepath: */cutadapt_beta_tubulin_isotype-1
 
 # output
-OUTPUT_DIR="" ### <- */PEAR_output
+OUTPUT_DIR="" ### <- */AHG_illumina_*_PEAR_output
 
 # setup
 mkdir -p "$OUTPUT_DIR"

@@ -3,11 +3,11 @@
 set -euo pipefail
 
 # input directory: PEAR output
-INPUT_DIR="" ### <- */PEAR_output
+INPUT_DIR="" ### <- */AHG_illumina_*_PEAR_output
 
 # output
-OUTPUT_DIR="" ### <- */PEARed_FASTP_filtered
-REPORT_DIR="" ### <- */FASTP_reports
+OUTPUT_DIR="" ### <- */AHG_illumina_*_PEARed_FASTP_filtered
+REPORT_DIR="" ### <- */AHG_illumina_*_FASTP_reports
 
 # setup
 mkdir -p "$OUTPUT_DIR"

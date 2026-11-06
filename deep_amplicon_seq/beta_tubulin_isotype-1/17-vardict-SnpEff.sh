@@ -7,8 +7,8 @@ SNPEFF_JAR="/Users/john.archer/ls/share/snpeff-5.4.0c-0/snpEff.jar"
 SNPEFF_CONFIG="/Users/john.archer/ls/share/snpeff-5.4.0c-0/snpEff.config"
 SNPEFF_DATA="/Users/john.archer/ls/share/snpeff-5.4.0c-0/data"
 GENOME="beta_tubulin_isotype_1"
-REF_FASTA="" ### <- */reference_databases/beta_tubulin_isotype-1/reference_directory/beta_tub_iso-1_consensus_sequences_RA_2019.fasta
-GFF3="" ### <- /Users/john.archer/Documents/Glasgow/anthelmogram/scripts/reference_databases/beta_tubulin_isotype-1/beta_tubulin_isotype_1.gff3
+REF_FASTA="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
+GFF3="" ### <- */reference_sequence_databases/beta_tubulin_isotype_1.gff3
 VCF_DIR="" ### <- */VarDict_VCF
 
 # output

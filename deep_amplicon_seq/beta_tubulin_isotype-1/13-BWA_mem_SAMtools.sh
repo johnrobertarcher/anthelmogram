@@ -3,7 +3,7 @@
 # NOTE: takes ~ 30 mins
 set -euo pipefail
 
-# input fastq directory (generated during [AHG_beta_tub-1.Rmd])
+# input fastq directory (generated during [12-AHG_beta_tub_1_SPECIES_FASTQ.Rmd])
 FASTQ_DIR="" ### <- */species_specific_FASTQ
 
 # input reference database
@@ -25,7 +25,7 @@ fi
 ALLOWED=(
 "Cooperia_oncophora"
 "Haemonchus_contortus"
-"nematodirus_helvetianus"
+"Nematodirus_helvetianus"
 "Ostertagia_ostertagi"
 "Teladorsagia_circumcincta"
 "Trichostrongylus_colubriformis"

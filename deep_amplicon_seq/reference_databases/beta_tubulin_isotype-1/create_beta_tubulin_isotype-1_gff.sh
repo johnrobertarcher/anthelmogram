@@ -3,10 +3,10 @@
 set -euo pipefail
 
 # input FASTA.fai
-FAI="/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/reference_directory/beta_tub_iso-1_consensus_sequences_RA_2019.fasta.fai"
+FAI="//Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta.fai"
 
 # output
-OUT="/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tubulin_isotype_1.gff3"
+OUT="/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tubulin_isotype_1_NEW.gff3"
 
 # generate gff3
 echo "##gff-version 3" > "$OUT"
