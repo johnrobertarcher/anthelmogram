@@ -6,7 +6,7 @@ output: html_document
 ---
 
 #########################
-RUN ID: [X]
+RUN ID: AHG_illumina_02
 #########################
 
 packages
@@ -32,10 +32,10 @@ library(patchwork)
 plot_1: relative abundance of resistant alleles vs susceptible alleles in all nematode species, per sample
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_02/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # sample
-sample_id <- "102"
+sample_id <- "11"
 
 # read data
 df <- read.csv(file, stringsAsFactors = FALSE)
@@ -586,10 +586,10 @@ ggplot(plot_df,
 plot_6: relative abundance of each specific resistance mutation (including 'undefined' mutations) vs susceptible alleles, at each codon position, per species, per sample
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_02/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
-# define sample ID
-sample_id <- "102"
+# sample
+sample_id <- "12"
 df <- read.csv(file, stringsAsFactors = FALSE)
 
 # filter to selected sample
