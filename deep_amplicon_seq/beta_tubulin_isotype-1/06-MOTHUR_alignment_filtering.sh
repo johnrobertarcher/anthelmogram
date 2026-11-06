@@ -9,9 +9,9 @@ REPORT="" ### <- */AHG_illumina_*_stability_filetrim.contigs.good.align_report
 FASTA="" ### <- */AHG_illumina_*_stability_filetrim.contigs.good.fasta
 
 # output
-OUTPUT_DIR="" ### <- */MOTHUR_aligned_filtered
+OUTPUT_DIR="" ### <- */AHG_illumina_*_MOTHUR_aligned_filtered
 PASSED_IDS="$OUTPUT_DIR/" ### <- AHG_illumina_*_KEPT_SEQUENCE_IDs.txt
-FILTERED_FASTA="$OUTPUT_DIR" ### <- AHG_illumina_*_KEPT_SEQUENCES.fasta
+FILTERED_FASTA="$OUTPUT_DIR/" ### <- AHG_illumina_*_KEPT_SEQUENCES.fasta
 
 # setup
 mkdir -p "$OUTPUT_DIR"

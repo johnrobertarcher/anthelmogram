@@ -6,7 +6,7 @@ set -euo pipefail
 RAW_DIR="" ### <- cutadapt output filepath: */cutadapt_beta_tubulin_isotype-1
 
 # output. NOTE: change stability file ID, depending on illumina run ID
-OUTFILE="" ### <- */AHG_illumina_*_stability_file
+OUTFILE="" ### <- */AHG_illumina_*_stability_file.txt
 
 # remove previous version, if present
 rm -f "$OUTFILE"

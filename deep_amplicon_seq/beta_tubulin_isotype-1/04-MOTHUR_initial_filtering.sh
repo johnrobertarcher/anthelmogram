@@ -8,7 +8,7 @@ FASTA="$INPUT_DIR/" ### <- */AHG_illumina_*_stability_filetrim.contigs.fasta
 COUNT="$INPUT_DIR/" ### <- */AHG_illumina_*_stability_filecontigs.count_table
 
 # output
-OUTPUT_DIR="" ### <- */MOTHUR_filtered
+OUTPUT_DIR="" ### <- */AHG_illumina_*_MOTHUR_filtered
 
 # setup
 mkdir -p "$OUTPUT_DIR"

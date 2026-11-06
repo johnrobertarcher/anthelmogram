@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # input illumina run-specific stability file
-FILELIST="" ### <- generate_stability_file.sh output path: */AHG_illumina_*_stability_file
+FILELIST="" ### <- generate_stability_file.sh output path: */AHG_illumina_*_stability_file.txt
 
 # output
 OUT_DIR="" ### <- */AHG_illumina_*_merged_reads
@@ -14,7 +14,7 @@ cd "$OUT_DIR"
 THREADS=8
 
 # MOTHUR make.contigs
-mothur "#make.contigs(file=$FILELIST, processors=$THREADS)"
+mothur "#make.contigs(file=$FILELIST, outputdir=$OUT_DIR, processors=$THREADS)"
 
 echo "MOTHUR_merge_reads.sh complete"
 

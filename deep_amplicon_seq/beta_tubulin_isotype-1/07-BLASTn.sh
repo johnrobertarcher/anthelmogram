@@ -3,17 +3,17 @@
 # NOTE: returns top three hits only (kNN = 3); takes ~ 2 hours (8 threads)
 set -euo pipefail
 
-# input query fasta: */AHG_illumina_*_KEPT_SEQUENCES.fasta, reference database, and the BLASTn database generated here
+# input query fasta: */AHG_illumina_*_KEPT_SEQUENCES.fasta
 QUERY_FASTA="" ### <- */AHG_illumina_*_KEPT_SEQUENCES.fasta
 
-# input reference fasta: 
+# input reference databse fasta: beta_tub_iso-1_sequence_database_JA_2026_FULL_GENUS_SPECIES_IN_HEADERS.fasta
 REF_FASTA="" ### <- */reference_databases/beta_tub_iso-1_sequence_database_JA_2026_FULL_GENUS_SPECIES_IN_HEADERS.fasta"
 
-# input reference database
-DB="" ### <- */reference_databases/beta_tubulin_isotype-1/beta_tub_iso-1_BLASTn_database
+# input BLASTn database generated here: beta_tubulin_isotype-1/beta_tub_iso-1_BLASTn_database
+DB="" ### <- */reference_sequence_databases/beta_tub_iso-1_BLASTn_database
 
 # output
-BLAST_OUT="" ### <- */BLASTn_output.tsv
+BLAST_OUT="" ### <- */AHG_illumina_*_BLASTn_output.tsv
 
 # setup
 mkdir -p "$(dirname "$BLAST_OUT")"
