@@ -36,4 +36,4 @@ for R1 in "$INPUT_DIR"/*_R1_001.fastq.gz; do
 
 done
 
-echo "PEAR.sh complete"
+echo "PEAR.sh done"

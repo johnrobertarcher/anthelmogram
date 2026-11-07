@@ -84,4 +84,4 @@ do
 
 done
 
-echo "BWA.sh complete"
+echo "BWA_mem_SAMtools.sh done"

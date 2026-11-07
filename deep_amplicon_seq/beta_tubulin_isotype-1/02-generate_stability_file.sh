@@ -28,4 +28,4 @@ for R1 in "$RAW_DIR"/*_R1_001.fastq.gz; do
 
 done
 
-echo "generate_stability_file.sh complete"
+echo "generate_stability_file.sh done"

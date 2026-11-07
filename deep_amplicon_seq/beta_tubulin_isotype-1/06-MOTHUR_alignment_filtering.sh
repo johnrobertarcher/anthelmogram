@@ -53,7 +53,7 @@ fi
 # move
 mv "$PICKED_FASTA" "$FILTERED_FASTA"
 
-echo "MOTHUR_alignment_filtering.sh complete"
+echo "MOTHUR_alignment_filtering.sh done"
 
 # output file names:
 # */AHG_illumina_*_stability_filetrim.contigs.good.pick.fasta

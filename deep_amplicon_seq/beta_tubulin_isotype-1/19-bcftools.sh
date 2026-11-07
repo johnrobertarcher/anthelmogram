@@ -41,4 +41,4 @@ for bam in "$BAM_DIR"/*.bam; do
 
 done
 
-echo "bcftools.sh complete"
+echo "bcftools.sh done"

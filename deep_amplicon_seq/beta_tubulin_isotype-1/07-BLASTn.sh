@@ -48,4 +48,4 @@ blastn \
     -num_threads 8 \
     -out "$BLAST_OUT"
 
-echo "BLASTn.sh complete"
+echo "BLASTn.sh done"

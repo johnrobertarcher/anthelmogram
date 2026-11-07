@@ -93,4 +93,4 @@ do
 
 done
 
-echo "vardict.sh complete"
+echo "vardict.sh done"

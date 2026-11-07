@@ -82,4 +82,4 @@ END {
 }
 ' "$BLAST_OUT" > "$KNN_OUT"
 
-echo "kNN.sh complete"
+echo "kNN.sh done"

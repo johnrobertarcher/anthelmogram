@@ -33,4 +33,4 @@ do
 
 done
 
-echo "PICKARD_read_groups.sh complete"
+echo "PICKARD_read_groups.sh done"

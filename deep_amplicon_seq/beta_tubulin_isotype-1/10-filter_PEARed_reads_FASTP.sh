@@ -51,4 +51,4 @@ for f in "$INPUT_DIR"/*.assembled.fastq; do
 
 done
 
-echo "filter_PEARed_reads_FASTP.sh complete"
+echo "filter_PEARed_reads_FASTP.sh done"

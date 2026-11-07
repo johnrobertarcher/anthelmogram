@@ -19,7 +19,7 @@ mkdir -p "$OUTPUT_DIR"
 # MOTHUR align.seqs
 mothur "#align.seqs(fasta=$FASTA, reference=$REF, outputdir=$OUTPUT_DIR, processors=8)"
 
-echo "MOTHUR_alignment.sh complete"
+echo "MOTHUR_map.sh done"
 
 # output file names: 
 # */AHG_illumina_*_stability_filetrim.contigs.good.align

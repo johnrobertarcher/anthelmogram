@@ -82,4 +82,4 @@ do
 
 done
 
-echo "vardict_SnpEff.sh complete"
+echo "vardict_SnpEff.sh done"

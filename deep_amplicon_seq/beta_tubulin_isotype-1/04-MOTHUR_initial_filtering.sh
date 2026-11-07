@@ -17,7 +17,7 @@ cd "$OUTPUT_DIR"
 # MOTHUR screen.seqs
 mothur "#screen.seqs(fasta=$FASTA, count=$COUNT, minlength=200, maxlength=450, maxambig=0)"
 
-echo "MOTHUR_filtering.sh complete"
+echo "MOTHUR_filtering.sh done"
 
 # output file names:
 # */AHG_illumina_*_stability_filetrim.contigs.good.fasta
