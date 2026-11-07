@@ -6,7 +6,7 @@ set -euo pipefail
 FAI="//Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta.fai"
 
 # output
-OUT="/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tubulin_isotype_1_NEW.gff3"
+OUT="/Users/john.archer/Documents/GitHub/anthelmogram/deep_amplicon_seq/reference_databases/beta_tubulin_isotype-1/beta_tubulin_isotype-1_JA.gff3"
 
 # generate gff3
 echo "##gff-version 3" > "$OUT"

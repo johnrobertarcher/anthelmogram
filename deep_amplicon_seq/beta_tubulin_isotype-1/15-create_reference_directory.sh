@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # input reference FASTA: */reference_databases/beta_tubulin_isotype-1/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
-REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
+REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA.fasta
 
 # output directory
 REF_DIR="" ### <- */reference_sequence_databases/reference_directory

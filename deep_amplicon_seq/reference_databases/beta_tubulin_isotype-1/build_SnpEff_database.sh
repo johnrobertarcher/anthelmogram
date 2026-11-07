@@ -7,8 +7,8 @@ SNPEFF_JAR="/Users/john.archer/ls/share/snpeff-5.4.0c-0/snpEff.jar"
 SNPEFF_CONFIG="/Users/john.archer/ls/share/snpeff-5.4.0c-0/snpEff.config"
 SNPEFF_DATA="/Users/john.archer/ls/share/snpeff-5.4.0c-0/data"
 GENOME="beta_tubulin_isotype_1"
-REF_FASTA="/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
-GFF3="/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/reference_sequence_databases/beta_tubulin_isotype_1_NEW.gff3" ### <- */reference_sequence_databases/beta_tubulin_isotype_1_NEW.gff3
+REF_FASTA="/Users/john.archer/Documents/GitHub/anthelmogram/deep_amplicon_seq/reference_databases/beta_tubulin_isotype-1/beta_tub_iso-1_consensus_sequences_JA.fasta" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA.fasta
+GFF3="/Users/john.archer/Documents/GitHub/anthelmogram/deep_amplicon_seq/reference_databases/beta_tubulin_isotype-1/beta_tubulin_isotype-1_JA.gff3" ### <- */reference_sequence_databases/beta_tubulin_isotype-1_JA.gff3
 
 # check required files exist
 [ -f "$SNPEFF_JAR" ] || { echo "error: snpEff.jar not found"; exit 1; }
@@ -54,4 +54,4 @@ java -jar "$SNPEFF_JAR" dump \
   -dataDir "$SNPEFF_DATA" \
   "$GENOME" > "$SNPEFF_DATA/$GENOME/database_check.txt"
 
-echo "build_SnpEff_database.sh complete"
+echo "build_SnpEff_database.sh done"
