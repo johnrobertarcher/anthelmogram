@@ -1,8 +1,8 @@
 #!/bin/bash
-### format PEAR-ed and filtered FASTQ headers to match headers in kNN file (i.e., replace colons with underscores)
+### format PEAR-ed and fastp-filtered FASTQ headers to match headers in kNN file (i.e., replace colons with underscores)
 set -euo pipefail
 
-# input fastp filtered fastq files
+# input PEAR-ed and fastp-filtered fastq files
 INPUT_DIR="" ### <- */PEARed_FASTP_filtered
 
 # output
@@ -22,11 +22,11 @@ for fq in "$INPUT_DIR"/*.fastq; do
         # remove @
         sub(/^@/, "", $0)
 
-        # keep only first token (drop everything after space)
+        # keep only first token (remove everything after space)
         split($0, a, " ")
         id = a[1]
 
-        # convert colons to underscores
+        # change colons to underscores
         gsub(":", "_", id)
 
         # re-add FASTQ header marker
@@ -37,8 +37,6 @@ for fq in "$INPUT_DIR"/*.fastq; do
     { print }
 
     ' "$fq" > "$out"
-
-    echo "processed: $(basename "$fq")"
 
 done
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-### align formatted FASTQ files to respective susceptible reference sequence [beta_tub_iso-1_consensus_sequences_RA_2019.fasta] using BWA-MEM, convert SAM to BAM using SAMtools, and sort/index using SAMtools 
+### align formatted FASTQ files to respective susceptible reference sequence [beta_tub_iso-1_consensus_sequences_JA.fasta] using BWA-MEM, convert SAM to BAM using SAMtools, and sort/index using SAMtools 
 # NOTE: takes ~ 30 mins
 set -euo pipefail
 
@@ -7,7 +7,7 @@ set -euo pipefail
 FASTQ_DIR="" ### <- */species_specific_FASTQ
 
 # input reference database
-REF="" ### <- */reference_databases/beta_tubulin_isotype-1/reference_directory/beta_tub_iso-1_consensus_sequences_RA_2019.fasta
+REF="" ### <- */reference_databases/beta_tubulin_isotype-1/reference_directory/beta_tub_iso-1_consensus_sequences_JA.fasta
 
 # output
 OUT_DIR="" ### <- */BWA_alignments

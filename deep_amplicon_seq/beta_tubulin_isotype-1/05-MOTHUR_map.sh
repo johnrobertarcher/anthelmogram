@@ -1,5 +1,5 @@
 #!/bin/bash
-### align retained sequences to reference sequence database [beta_tub_iso-1_sequence_database_JA_2026_FULL_GENUS_SPECIES_IN_HEADERS.fasta] using MOTHUR align.seqs (default Needleman-wunsch algorithm)
+### align retained sequences to reference sequence database [beta_tub_iso-1_sequence_database_JA_2026_FULL_GENUS_SPECIES_IN_HEADERS.fasta] using MOTHUR align.seqs (default Needleman-Wunsch algorithm)
 # NOTE: output fasta is an alignment
 set -euo pipefail
 
