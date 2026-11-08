@@ -9,10 +9,10 @@ set -euo pipefail
 BAM_DIR="" ### <- */PICKARD_output
 
 # input reference fasta
-REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
+REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA.fasta
 
 # input curated [bcftools_BED_coordinates.bed] file
-REGIONS="" ### <- */reference_sequence_databases/bcftools_BED_coordinates.bed
+REGIONS="" ### <- */reference_sequence_databases/bcftools_BED_coordinates_JA.bed
 
 # output
 OUT_DIR="" ### <- */bcftools_output

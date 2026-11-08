@@ -6,11 +6,11 @@ set -euo pipefail
 # input query fasta: */AHG_illumina_*_KEPT_SEQUENCES.fasta
 QUERY_FASTA="" ### <- */AHG_illumina_*_KEPT_SEQUENCES.fasta
 
-# input reference databse fasta: beta_tub_iso-1_sequence_database_JA_2026_FULL_GENUS_SPECIES_IN_HEADERS.fasta
+# input reference databse fasta: beta_tub_iso-1_sequence_database_JA.fasta
 REF_FASTA="" ### <- */reference_databases/beta_tub_iso-1_sequence_database_JA.fasta"
 
-# input BLASTn database generated here: beta_tubulin_isotype-1/beta_tub_iso-1_BLASTn_database
-DB="" ### <- */reference_sequence_databases/beta_tub_iso-1_BLASTn_database
+# input BLASTn database generated here: */reference_sequence_databases/beta_tub_iso-1_BLASTn_database/beta_tub_iso-1_BLASTn_database
+DB="" ### <- */reference_sequence_databases/beta_tub_iso-1_BLASTn_database/beta_tub_iso-1_BLASTn_database
 
 # output
 BLAST_OUT="" ### <- */AHG_illumina_*_BLASTn_output.tsv

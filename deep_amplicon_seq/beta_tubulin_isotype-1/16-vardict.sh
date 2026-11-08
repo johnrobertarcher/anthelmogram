@@ -4,14 +4,14 @@
 # NOTE: use a minimum frequency of 0.1% and maximum allowed mismatches of 40 compared with reference sequences; stores raw .txt files in one folder and VCF files (converted from .txt files) in another
 set -euo pipefail
 
-# input reference fasta: */reference_databases/beta_tubulin_isotype-1/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
-REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
+# input reference fasta: */reference_databases/beta_tubulin_isotype-1/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA.fasta
+REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA.fasta
 
 # input BAM directory (PICKARD_read_groups.sh output)
 BAM_DIR="" ### <- */PICKARD_output
 
 # input curated beta-tubulin-isotype-1 amplicon BED file
-BED="" ### <- */reference_sequence_databases/vardict_BED_coordinates.bed
+BED="" ### <- */reference_sequence_databases/vardict_BED_coordinates_JA.bed
 
 # output folders
 RAW_DIR="" ### <- */VarDict/VarDict_raw

@@ -13,7 +13,7 @@ MPILEUP_DIR="" ### <- */bcftools_output
 SNPEFF_DIR="" ### <- */SnpEff_output
 
 # input curated [bcftools_BED_coordinates.bed] file
-BED="" ### <- */reference_databases/beta_tubulin_isotype-1/bcftools_BED_coordinates.bed
+BED="" ### <- */reference_databases/beta_tubulin_isotype-1/bcftools_BED_coordinates_JA.bed
 
 # output (.tsv then convered to .csv)
 OUT="" ### <- */beta_tubulin_codons_merged.tsv
