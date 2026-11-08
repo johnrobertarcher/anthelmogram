@@ -6,7 +6,7 @@ output: html_document
 ---
 
 #########################
-RUN ID: AHG_illumina_02
+RUN ID: [X]
 #########################
 
 packages
@@ -32,10 +32,10 @@ library(patchwork)
 plot_1: relative abundance of resistant alleles vs susceptible alleles in all nematode species, per sample
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_02/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
+file <- "" ### <- "/AHG_illumina_*/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # sample
-sample_id <- "11"
+sample_id <- "12"
 
 # read data
 df <- read.csv(file, stringsAsFactors = FALSE)
@@ -125,7 +125,7 @@ plot_1 <-
 plot_2: relative abundance of resistant alleles vs susceptible alleles in each species, per sample
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+file <- "" ### <- "/AHG_illumina_*/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # define sample ID
 sample_id <- "102"
@@ -219,7 +219,7 @@ ggplot(plot_long,
 plot_3: relative abundance of resistant alleles vs susceptible alleles at each codon position in all species, per sample
 ```{r}
 # input
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+file <- "" ### <- "/AHG_illumina_*/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # define sample ID
 sample_id <- "102"
@@ -319,7 +319,7 @@ ggplot(plot_df,
 plot_4: relative abundance of resistant alleles vs susceptible alleles at each codon position, per nematode species, per sample
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+file <- "" ### <- "/AHG_illumina_*/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # define sample ID
 sample_id <- "102"
@@ -444,7 +444,7 @@ plot_5: relative abundance of each specific resistance mutation vs susceptible a
 NOTE: does not yet show 'undefined' mutations
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/final_output_data/AHG_illumina_01/AHG_illumina_01_bt-i1_merged_FILTERED_FINAL.csv"
+file <- "" ### <- "/AHG_illumina_*/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # define sample ID
 sample_id <- "102"
@@ -586,7 +586,7 @@ ggplot(plot_df,
 plot_6: relative abundance of each specific resistance mutation (including 'undefined' mutations) vs susceptible alleles, at each codon position, per species, per sample
 ```{r}
 # input csv
-file <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_02/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
+file <- "" ### <- "/AHG_illumina_*/genewiz_data/beta_tubulin_codons_merged_FILTERED.csv"
 
 # sample
 sample_id <- "12"

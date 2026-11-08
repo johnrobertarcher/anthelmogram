@@ -3,13 +3,13 @@
 # NOTE: returns top three hits only (future kNN = 3)
 set -euo pipefail
 
-# input query fasta: */AHG_illumina_*_KEPT_SEQUENCES.fasta
+# input query fasta
 QUERY_FASTA="" ### <- */AHG_illumina_*_KEPT_SEQUENCES.fasta
 
-# input reference databse fasta: beta_tub_iso-1_sequence_database_JA.fasta
+# input reference databse fasta
 REF_FASTA="" ### <- */reference_databases/beta_tub_iso-1_sequence_database_JA.fasta"
 
-# input BLASTn database generated here: */reference_sequence_databases/beta_tub_iso-1_BLASTn_database/beta_tub_iso-1_BLASTn_database
+# input BLASTn database generated here
 DB="" ### <- */reference_sequence_databases/beta_tub_iso-1_BLASTn_database/beta_tub_iso-1_BLASTn_database
 
 # output

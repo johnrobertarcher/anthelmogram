@@ -3,7 +3,7 @@
 # NOTE: not needed for every illumina run
 set -euo pipefail
 
-# input reference FASTA: */reference_databases/beta_tubulin_isotype-1/reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA_2026.fasta
+# input reference FASTA
 REF="" ### <- */reference_sequence_databases/beta_tub_iso-1_consensus_sequences_JA.fasta
 
 # output directory

@@ -32,11 +32,11 @@ library(patchwork)
 create species-specific FASTQ files, derived from each sample, using generated kNN.tsv file
 ```{r}
 # inputs
-fastq_dir <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_*/genewiz_data/PEARed_FASTP_filtered_FORMATTED"
-map_file  <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_*/genewiz_data/kNN_taxonomy.tsv"
+fastq_dir <- "" ### <- "AHG_illumina_*/genewiz_data/PEARed_FASTP_filtered_FORMATTED"
+map_file  <- "" ### <- "AHG_illumina_*/genewiz_data/kNN_taxonomy.tsv"
 
 # output
-out_dir <- "/Users/john.archer/Documents/Glasgow/anthelmogram/illumina_runs/AHG_illumina_*/genewiz_data/species_specific_FASTQ"
+out_dir <- "" ### <- AHG_illumina_*/genewiz_data/species_specific_FASTQ"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 # load kNN table
