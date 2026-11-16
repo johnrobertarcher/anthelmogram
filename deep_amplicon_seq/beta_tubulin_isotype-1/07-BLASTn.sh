@@ -1,6 +1,6 @@
 #!/bin/bash
 ### use generated [*/AHG_illumina_*_KEPT_SEQUENCES.fasta] to perform BLASTn
-# NOTE: returns top three hits only (future kNN = 3)
+# NOTE: returns top three hits only (for future kNN = 3)
 set -euo pipefail
 
 # input query fasta
@@ -35,9 +35,8 @@ else
 
 fi
 
-# BLASTn. NOTE: top three hits returned only (future kNN = 3); takes ~ 2 hours (8 threads)
-echo "running BLASTn"
-
+# BLASTn. NOTE: top three hits returned only (for future kNN = 3)
+echo "BLASTn in progress"
 blastn \
     -query "$QUERY_FASTA" \
     -db "$DB" \

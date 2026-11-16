@@ -1,5 +1,6 @@
 #!/bin/bash
 ### annotate beta-tubulin isotype-1 codon mutations using SnpEff
+# NOTE: uses curated beta-tubulin-isotype-1 amplicon .gff3 file that defines amplicon features (introns, CDS, etc), [beta_tubulin_isotype_1_JA.gff3], generated using [create_beta_tubulin_isotype-1_gff.sh]
 set -euo pipefail
 
 # input

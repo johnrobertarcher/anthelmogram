@@ -26,7 +26,7 @@ do
     while IFS=$'\t' read -r chrom pos ref alt af dp ad ann
     do
 
-        # AD is REF,ALT read depth
+        # AD is REF, ALT read depth
         susceptible=$(echo "$ad" | cut -d',' -f1)
         resistant=$(echo "$ad" | cut -d',' -f2)
 
@@ -74,7 +74,7 @@ do
 
 done
 
-### convert .tsv to .csv for easy viewing
+# convert .tsv to .csv for easy viewing
 CSV="${OUT%.tsv}.csv"
 sed 's/\t/,/g' "$OUT" > "$CSV"
 

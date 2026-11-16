@@ -1,9 +1,6 @@
 #!/bin/bash
 ### merge VarDict/SnpEff mutation data and mpileup susceptible/resistant read count data
-### extract beta tubulin resistance codons:
-# 1. beta-tubulin codon 167 = SnpEff protein position 28
-# 2. beta-tubulin codon 198 = SnpEff protein position 59
-# 3. beta-tubulin codon 200 = SnpEff protein position 61
+# NOTE: uses curated beta-tubulin-isotype-1 amplicon BED file that defines positions of codons of interest [bcftools_BED_coordinates_JA.bed]
 set -euo pipefail
 
 # input bcftools output
@@ -12,7 +9,7 @@ MPILEUP_DIR="" ### <- */bcftools_output
 # input SnpEff output
 SNPEFF_DIR="" ### <- */SnpEff_output
 
-# input curated [bcftools_BED_coordinates.bed] file
+# input curated [bcftools_BED_coordinates_JA.bed] file
 BED="" ### <- */reference_databases/beta_tubulin_isotype-1/bcftools_BED_coordinates_JA.bed
 
 # output (.tsv then convered to .csv)
@@ -190,7 +187,7 @@ rm "$ANN_TMP"
 
 
 
-### convert .tsv to .csv
+### convert .tsv to .csv for easy viewing
 tr '\t' ',' < "$OUT" > "$CSV"
 
 echo "merge_vardict-SnpEff_and_mpileup.sh done"

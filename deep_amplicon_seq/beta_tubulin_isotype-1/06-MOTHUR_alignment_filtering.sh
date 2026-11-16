@@ -17,8 +17,6 @@ FILTERED_FASTA="$OUTPUT_DIR/" ### <- AHG_illumina_*_KEPT_SEQUENCES.fasta
 mkdir -p "$OUTPUT_DIR"
 
 # extract passing sequence IDs
-echo "filtering"
-
 awk -F'\t' '
 NR==1 {next}
 {
@@ -38,8 +36,6 @@ NR==1 {next}
     }
 }
 ' "$REPORT" | sort -u > "$PASSED_IDS"
-
-
 
 # MOTHUR get.seqs
 mothur "#get.seqs(fasta=$FASTA, accnos=$PASSED_IDS)"

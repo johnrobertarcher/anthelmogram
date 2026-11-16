@@ -1,6 +1,5 @@
 #!/bin/bash
 ### align formatted FASTQ files to respective susceptible reference sequence [beta_tub_iso-1_consensus_sequences_JA.fasta] using BWA-MEM, convert SAM to BAM using SAMtools, and sort/index using SAMtools 
-# NOTE: takes ~ 30 mins
 set -euo pipefail
 
 # input fastq directory (generated during [12-AHG_beta_tub_1_SPECIES_FASTQ.Rmd])

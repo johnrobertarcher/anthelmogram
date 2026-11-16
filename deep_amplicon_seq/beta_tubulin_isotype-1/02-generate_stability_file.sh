@@ -1,5 +1,5 @@
 #!/bin/bash
-### generate stability file from cutadapt’ed reads to be used by MOTHUR
+### generate illumina run-specific stability file from cutadapt’ed reads to be used by MOTHUR
 set -euo pipefail
 
 # input cutadapt'ed paired-end reads

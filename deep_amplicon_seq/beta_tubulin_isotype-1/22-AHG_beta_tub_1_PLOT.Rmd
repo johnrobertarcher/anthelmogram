@@ -115,7 +115,7 @@ plot_1 <-
   theme_bw() +
 
   labs(
-    title = paste("plot_1:", sample_id),
+    title = paste("plot_1, sample:", sample_id),
     x = "Sample",
     y = "Allele proportion",
     fill = ""
@@ -209,7 +209,7 @@ ggplot(plot_long,
   ) +
 
   labs(
-    title = paste("plot_2:", sample_id),
+    title = paste("plot_2, sample:", sample_id),
     x = "Nematode species",
     y = "Allele frequency",
     fill = ""
@@ -305,7 +305,7 @@ ggplot(plot_df,
   theme_bw(base_size = 13) +
 
   labs(
-    title = paste("plot_3:", sample_id),
+    title = paste("plot_3, sample:", sample_id),
     x = expression(beta*"-tubulin codon"),
     y = "Allele frequency",
     fill = "Allele"
@@ -428,7 +428,7 @@ ggplot(plot_df,
   theme_bw(base_size = 13) +
 
   labs(
-    title = paste("plot_4:", sample_id),
+    title = paste("plot_4, sample:", sample_id),
     x = "Nematode species",
     y = "Allele frequency",
     fill = ""
@@ -572,7 +572,7 @@ ggplot(plot_df,
   theme_bw(base_size = 13) +
 
   labs(
-    title = paste("plot_5:", sample_id),
+    title = paste("plot_5, sample:", sample_id),
     x = expression(beta*"-tubulin codon"),
     y = "Proportion of reads",
     fill = "Mutation"
@@ -791,8 +791,7 @@ plot_6 <-
 
   labs(
     title = paste(
-      "plot_6:",
-      sample_id
+      "plot_6, sample:", sample_id
     ),
     x = "Nematode species",
     y = "Allele frequency",

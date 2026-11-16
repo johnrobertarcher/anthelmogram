@@ -1,6 +1,6 @@
 #!/bin/bash
 ### call variants for each species (from each sample) using VarDict
-# NOTE: uses curated beta-tubulin-isotype-1 amplicon BED file [vardict_BED_coordinates.bed]
+# NOTE: uses curated beta-tubulin-isotype-1 amplicon BED file that defines species-specific amplicon lengths [vardict_BED_coordinates_JA.bed]
 # NOTE: use a minimum frequency of 0.1% and maximum allowed mismatches of 40 compared with reference sequences; stores raw .txt files in one folder and VCF files (converted from .txt files) in another
 set -euo pipefail
 
@@ -48,10 +48,6 @@ command -v vardict-java >/dev/null 2>&1 || { echo "error: vardict-java not found
 # create BAM list
 shopt -s nullglob
 BAMS=("$BAM_DIR"/*.bam)
-
-echo "found ${#BAMS[@]} BAM files"
-
-
 
 # vardict loop over BAM files
 for bam in "${BAMS[@]}"

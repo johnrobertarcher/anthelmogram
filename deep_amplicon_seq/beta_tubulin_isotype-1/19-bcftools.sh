@@ -1,7 +1,7 @@
 #!/bin/bash
 ### use bcftools mpileup to count reads (all alleles: resistant and susceptible) at codons 28 (167), 59 (198) and 61 (200). 
-# NOTE: uses curated [bcftools_BED_coordinates.bed] file
-# NOTE: default is to limit to 250 reads --- that default is removed here, allowing all reads to be collated
+# NOTE: uses curated beta-tubulin-isotype-1 amplicon BED file that defines positions of codons of interest [bcftools_BED_coordinates_JA.bed]
+# NOTE: default is to limit to 250 reads. that default is removed here, allowing all reads to be collated
 # NOTE: then use bcftools call to convert .txt files to vcf
 set -euo pipefail
 

@@ -9,8 +9,7 @@ BLAST_OUT="" ### <- */BLASTn_output.tsv
 KNN_OUT="" ### <- */kNN_taxonomy.tsv
 
 # kNN classifier (kNN = 3)
-echo "running kNN classifier"
-
+echo "kNN classifier in progress"
 awk -F'\t' '
 BEGIN {
     OFS="\t"

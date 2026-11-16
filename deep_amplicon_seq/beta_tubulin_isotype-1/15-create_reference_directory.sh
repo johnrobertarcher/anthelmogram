@@ -1,5 +1,5 @@
 #!/bin/bash
-### create a reference sequence directory to be used for variant calling (VARDICT)
+### create a reference sequence directory to be used for variant calling (using VarDict)
 # NOTE: not needed for every illumina run
 set -euo pipefail
 
